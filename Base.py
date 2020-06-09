@@ -34,9 +34,17 @@ class BooleanFunction:
                 strategy_type = 'adaptive'
             else:
                 raise Exception("strategy error")
-        import BinaryTree
-        strategy_tree = BinaryTree.Node(0)
-        print(strategy_tree)
+        import Tree
+        if strategy_type == 'non-adaptive':
+            tree = Tree.NonAdaptiveTree(self.num_of_variables)
+        elif strategy_type == 'adaptive':
+            tree = Tree.AdaptiveTree(self.num_of_variables)
+        else:
+            raise Exception("strategy_type error")
+
+        tree.fill_in_strategy(strategy)
+        tree.restructure_with_boolean_function(self)
+        tree.print_tree()
 
 
 class LinearThresholdFunction(BooleanFunction):
@@ -145,7 +153,8 @@ def dot_product(a, b):
 
 
 sample = LinearThresholdFunction(num_of_variables=5, weights=[1, 1, 1, 1, 1], threshold=3)
-print(sample.get_optimal_non_adaptive_strategy([0.01, 0.01, 0.5, 0.99, 0.99]))
-print(vars(sample))
+sample.print_strategy_decision_tree([2,1,3,4,0])
+# print(sample.get_optimal_non_adaptive_strategy([0.01, 0.01, 0.5, 0.99, 0.99]))
+# print(vars(sample))
 
 # BooleanFunction(num_of_variables=4, positive_in_truth_table=[5, 6, 7]).show()

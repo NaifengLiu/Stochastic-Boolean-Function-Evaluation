@@ -46,24 +46,32 @@ def generate_all_adaptive_strategies(n, p_list=None):
 
         # print(strategies_output)
         return strategies_output
-    elif n > 3:
+    elif n == 4:
         final_output = []
         for item in range(n):
-            previous = generate_all_adaptive_strategies(n-1, [j for j in range(n) if j != item])
-
-            # modified_output = []
+            previous = generate_all_adaptive_strategies(n-1, [j for j in p_list if j != item])
             for item_i in previous:
                 for item_j in previous:
                     tmp_output = [item]
                     for a in range(n-1):
                         tmp_output += item_i[2**a-1: 2**(a+1)-1] + item_j[2**a-1: 2**(a+1)-1]
+                    # yield tmp_output
                     final_output.append(tmp_output)
         return final_output
+    elif n == 5:
+        previous = generate_all_adaptive_strategies(4)
+        previous_1 = previous[0]
+        previous_2 = previous[0]
+        tmp_output = [4]
+        for a in range(n - 1):
+            tmp_output += previous_1[2 ** a - 1: 2 ** (a + 1) - 1] + previous_2[2 ** a - 1: 2 ** (a + 1) - 1]
+        return [tmp_output]
 
 
 def generate_all_non_adaptive_strategies(n):
     return list(itertools.permutations(range(n)))
 
 
-
+# for each in generate_all_adaptive_strategies(5):
+#     print(each)
 

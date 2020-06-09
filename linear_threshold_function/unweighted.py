@@ -3,9 +3,13 @@ from ctypes import *
 import itertools
 import math
 from tqdm import tqdm
+import os
 
-
-libc = cdll.LoadLibrary("./cpp/unweighted_ltf.so")
+if os.name == 'nt':
+    libc = cdll.LoadLibrary("./linear_threshold_function/cpp/unweighted_ltf.dll")
+    # libc = cdll.LoadLibrary("./cpp/unweighted_ltf.dll")
+else:
+    libc = cdll.LoadLibrary("./linear_threshold_function/cpp/unweighted_ltf.so")
 libc.get_non_adaptive_cost_unit_cost.restype = c_double
 libc.get_non_adaptive_cost_unit_cost.argtypes = (c_int, c_int, POINTER(c_double))
 libc.get_non_adaptive_cost_arbitrary_cost.restype = c_double
@@ -175,11 +179,13 @@ def get_optimal_non_adaptive_cost(k, n, p, c, cost_type):
         raise Exception("cost_type error")
 
 
-for _ in tqdm(range(1000000)):
-    c_get_non_adaptive_cost_unit_cost(3, 5, [0.1, 0.1, 0.5, 0.9, 0.9], [0, 1, 2, 3, 4])
-for _ in tqdm(range(1000000)):
-    get_non_adaptive_cost_unit_cost(3, 5, [0.1, 0.1, 0.5, 0.9, 0.9], [0, 1, 2, 3, 4])
-for _ in tqdm(range(1000000)):
-    c_get_non_adaptive_cost_arbitrary_cost(3, 5, [0.1, 0.1, 0.5, 0.9, 0.9],[1,1,2,2,1], [0, 1, 2, 3, 4])
-for _ in tqdm(range(1000000)):
-    get_non_adaptive_cost_arbitrary_cost(3, 5, [0.1, 0.1, 0.5, 0.9, 0.9],[1,1,2,2,1], [0, 1, 2, 3, 4])
+# for _ in tqdm(range(1000000)):
+#     c_get_non_adaptive_cost_unit_cost(3, 5, [0.1, 0.1, 0.5, 0.9, 0.9], [0, 1, 2, 3, 4])
+# # for _ in tqdm(range(1000000)):
+# #     get_non_adaptive_cost_unit_cost(3, 5, [0.1, 0.1, 0.5, 0.9, 0.9], [0, 1, 2, 3, 4])
+# # for _ in tqdm(range(1000000)):
+# #     c_get_non_adaptive_cost_arbitrary_cost(3, 5, [0.1, 0.1, 0.5, 0.9, 0.9],[1,1,2,2,1], [0, 1, 2, 3, 4])
+# # for _ in tqdm(range(1000000)):
+# #     get_non_adaptive_cost_arbitrary_cost(3, 5, [0.1, 0.1, 0.5, 0.9, 0.9],[1,1,2,2,1], [0, 1, 2, 3, 4])
+# print(c_get_non_adaptive_cost_unit_cost(3, 5, [0.1, 0.1, 0.5, 0.9, 0.9], [4, 0, 1, 2, 3]))
+# print(get_non_adaptive_cost_unit_cost(3, 5, [0.1, 0.1, 0.5, 0.9, 0.9], [4, 0, 1, 2, 3]))
